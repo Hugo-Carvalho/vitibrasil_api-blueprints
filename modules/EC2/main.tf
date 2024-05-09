@@ -49,7 +49,7 @@ EOF
 }
 
 resource "aws_instance" "vitibrasil_instance" {
-  ami = vars.ami
+  ami = var.ami
   instance_type = "t2.micro"
   key_name = "vitibrasil_api"
   subnet_id = var.subnet_id
