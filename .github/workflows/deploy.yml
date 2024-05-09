@@ -15,7 +15,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./vitibrasil_api-blueprints
+        working-directory: vitibrasil_api-blueprints
  
     steps:
       - name: Git Clone Repo APP
