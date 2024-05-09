@@ -28,12 +28,6 @@ jobs:
       
       - name: Running terraform
         uses: hashicorp/setup-terraform@v3
-
-      - name: Check repo
-        run: ls
-
-      - name: Check repo
-        run: ls ..
   
       - name: Terraform init
         id: init
