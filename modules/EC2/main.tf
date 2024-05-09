@@ -14,6 +14,9 @@ data "aws_ami" "ubuntu" {
  }
 
 }
+data "template_file" "init" {
+  template = "${file("deploy.sh")}"
+}
 
 resource "aws_iam_role" "role_ec2_to_s3" {
   name = "role_ec2_to_s3"
@@ -70,11 +73,7 @@ resource "aws_instance" "vitibrasil_instance" {
   iam_instance_profile = "${aws_iam_instance_profile.profile_ec2_to_s3.name}"
 
   # TODO Criar script para deploy
-  user_data = <<-EOF
-#!/bin/bash
-sudo yum update -y && aws s3 sync s3://vitibrasil-integrations/project/ . && unzip vitibrasil_api.zip
-EOF
-
+  user_data = "${data.template_file.init.rendered}"
   tags = {
     Name = "vitibrasil_api"
   }
