@@ -72,8 +72,8 @@ resource "aws_instance" "vitibrasil_instance" {
   # TODO Criar script para deploy
   user_data = <<-EOF
 #!/bin/bash
-sudo yum update -y
-aws s3 sync s3://vitibrasil-integrations/project/ .
+sudo yum update -y \ 
+aws s3 sync s3://vitibrasil-integrations/project/ . \
 unzip vitibrasil_api.zip
 EOF
 
