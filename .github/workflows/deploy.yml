@@ -12,10 +12,6 @@ env:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: vitibrasil_api-blueprints
  
     steps:
       - name: Git Clone Repo APP
@@ -28,6 +24,15 @@ jobs:
       - name: Git Clone Repo APP
         uses: actions/checkout@v4
         
+      - name: Actual path
+        run: ls -lta
+
+      - name: Last path
+        run: ls .. -lta
+
+      - name: Home path
+        run: ls ~ -lta
+      
       - name: Running terraform
         uses: hashicorp/setup-terraform@v3
   
