@@ -14,6 +14,9 @@ data "aws_ami" "ubuntu" {
  }
 
 }
+data "template_file" "init" {
+  template = "${file("deploy.sh")}"
+}
 
 resource "aws_iam_role" "role_ec2_to_s3" {
   name = "role_ec2_to_s3"
@@ -69,12 +72,14 @@ resource "aws_instance" "vitibrasil_instance" {
   associate_public_ip_address = true
   iam_instance_profile = "${aws_iam_instance_profile.profile_ec2_to_s3.name}"
 
-  # TODO Criar script para deploy
-  user_data = <<-EOF
-#!/bin/bash
-sudo yum update -y
-EOF
+  root_block_device {
+    delete_on_termination = true
+    volume_size           = var.ec2_size
+    volume_type           = "gp3"
+  }
 
+  # TODO Criar script para deploy
+  user_data = "${data.template_file.init.rendered}"
   tags = {
     Name = "vitibrasil_api"
   }

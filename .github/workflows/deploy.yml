@@ -1,15 +1,43 @@
-name: My Workflow
+name: Deploy
 on: push
+env:
+
+  TF_LOG: INFO
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  REGION: ${{ secrets.AWS_REGION }}
+  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+  GT_TOKEN: ${{ secrets.DEPLOY }}
+
+  
 jobs:
-  build:
+  terraform:
     runs-on: ubuntu-latest
+ 
     steps:
-      - uses: actions/checkout@v4
+      - name: Git Clone Repo APP
+        uses: actions/checkout@v4
+
+      - name: Git Clone Repo APP
+        uses: actions/checkout@v4
         with:
           repository: Hugo-Carvalho/vitibrasil_api
-          token: ${{ secrets.DEPLOY }}
+          token: ${{env.GT_TOKEN}}
           path: vitibrasil_api
-      - name: Run script file
-        run: |
-           ls
-        shell: bash
+          submodels: recursive
+      
+      - name: Running terraform
+        uses: hashicorp/setup-terraform@v3
+  
+      - name: Terraform init
+        id: init
+        run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+
+      - name: Terraform plan
+        id: plan
+        run: terraform plan
+
+      - name: Terraform apply
+        id: apply
+        run: terraform apply -auto-approve
+
