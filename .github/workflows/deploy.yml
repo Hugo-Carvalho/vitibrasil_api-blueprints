@@ -16,22 +16,14 @@ jobs:
     steps:
       - name: Git Clone Repo APP
         uses: actions/checkout@v4
+
+      - name: Git Clone Repo APP
+        uses: actions/checkout@v4
         with:
           repository: Hugo-Carvalho/vitibrasil_api
           token: ${{env.GT_TOKEN}}
           path: vitibrasil_api
-
-      - name: Git Clone Repo APP
-        uses: actions/checkout@v4
-        
-      - name: Actual path
-        run: ls -lta
-
-      - name: Last path
-        run: ls .. -lta
-
-      - name: Home path
-        run: ls ~ -lta
+          submodels: recursive
       
       - name: Running terraform
         uses: hashicorp/setup-terraform@v3
