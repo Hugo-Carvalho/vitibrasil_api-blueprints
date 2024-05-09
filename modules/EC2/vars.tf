@@ -1,5 +1,5 @@
 variable "ami" {
-  default = "ami-0727f3c2d4b0226d5"
+  default = "ami-0babef7f814da8951"
   description = "AMI Amazon Linux"
 }
 
