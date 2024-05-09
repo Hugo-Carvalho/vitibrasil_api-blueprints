@@ -72,6 +72,12 @@ resource "aws_instance" "vitibrasil_instance" {
   associate_public_ip_address = true
   iam_instance_profile = "${aws_iam_instance_profile.profile_ec2_to_s3.name}"
 
+  root_block_device {
+    delete_on_termination = true
+    volume_size           = var.ec2_size
+    volume_type           = "gp3"
+  }
+
   # TODO Criar script para deploy
   user_data = "${data.template_file.init.rendered}"
   tags = {

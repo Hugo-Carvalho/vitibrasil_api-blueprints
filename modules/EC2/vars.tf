@@ -11,9 +11,13 @@ variable "subnet_id" {
 variable "ebs_size" {
   type = number
   default = 0
-  description = "Subnet a ser utilizada"
+  description = "Volume do EBS adicional"
 }
 
+variable "ec2_size" {
+  type = number
+  description = "Volume interno do EBS tamanho"
+}
 variable "create_ebs" {
   type = bool
   default = false
