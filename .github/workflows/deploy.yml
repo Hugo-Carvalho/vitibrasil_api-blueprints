@@ -35,9 +35,9 @@ jobs:
 
       - name: Terraform plan
         id: plan
-        run: terraform plan
+        run: terraform plan -replace="aws_instance.vitibrasil_instance"
 
       - name: Terraform apply
         id: apply
-        run: terraform apply -auto-approve
+        run: terraform apply -replace="aws_instance.vitibrasil_instance" -auto-approve
 
