@@ -1,4 +1,4 @@
-name: My Workflow
+name: Deploy
 on: push
 jobs:
   build:
@@ -11,5 +11,5 @@ jobs:
           path: vitibrasil_api
       - name: Run script file
         run: |
-           ls
+           ls vitibrasil_api
         shell: bash
