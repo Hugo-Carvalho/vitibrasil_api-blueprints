@@ -135,7 +135,6 @@ resource "aws_security_group" "permitir_ssh_http" {
 resource "null_resource" "reboot_instance" {
 
   provisioner "local-exec" {
-    on_failure  = "fail"
     interpreter = ["/bin/bash", "-c"]
     command     = <<EOT
         echo -e "\x1B[31m Warning! Restarting instance having id ${aws_instance.vitibrasil_instance.id}.................. \x1B[0m"
