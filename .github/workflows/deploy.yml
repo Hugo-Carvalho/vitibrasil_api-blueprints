@@ -35,9 +35,9 @@ jobs:
 
       - name: Terraform plan
         id: plan
-        run: terraform plan -target null_resource.reboo_instance
+        run: terraform plan
 
       - name: Terraform apply
         id: apply
-        run: terraform apply -target null_resource.reboo_instance -auto-approve
+        run: terraform apply -auto-approve
 
