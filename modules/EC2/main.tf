@@ -135,9 +135,7 @@ resource "aws_security_group" "permitir_ssh_http" {
 resource "null_resource" "reboot_instance" {
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command     = <<EOT
-        aws ec2 reboot-instances --instance-ids ${aws_instance.vitibrasil_instance.id}
-     EOT
+    command     = "aws ec2 reboot-instances --instance-ids ${aws_instance.vitibrasil_instance.id}"
   }
 
   depends_on = [ aws_instance.vitibrasil_instance ]
