@@ -1,5 +1,8 @@
 name: Deploy
-on: push
+on:
+  repository_dispatch:
+    types: [trigger-workflow]
+
 env:
 
   TF_LOG: INFO
@@ -24,7 +27,7 @@ jobs:
           repository: Hugo-Carvalho/vitibrasil_api
           token: ${{env.GT_TOKEN}}
           path: vitibrasil_api
-          submodels: recursive
+          submodules: recursive
       
       - name: Running terraform
         uses: hashicorp/setup-terraform@v3

@@ -1,19 +1,4 @@
-data "aws_ami" "ubuntu" {
- most_recent = true
 
-
- filter {
-   name   = "owner-alias"
-   values = ["amazon"]
- }
-
-
- filter {
-   name   = "name"
-   values = ["amzn2-ami-hvm*"]
- }
-
-}
 data "template_file" "init" {
   template = "${file("deploy.sh")}"
 }
@@ -64,7 +49,7 @@ EOF
 }
 
 resource "aws_instance" "vitibrasil_instance" {
-  ami = data.aws_ami.ubuntu.id
+  ami = var.ami
   instance_type = "t2.micro"
   key_name = "vitibrasil_api"
   subnet_id = var.subnet_id
@@ -144,5 +129,16 @@ resource "aws_security_group" "permitir_ssh_http" {
 
   tags = {
     Name = "permitir_ssh_e_http"
+  }
+}
+
+resource "null_resource" "reboot_instance" {
+  provisioner "local-exec" {
+    command     = "aws ec2 reboot-instances --instance-ids ${aws_instance.vitibrasil_instance.id} --region us-east-1"
+  }
+
+  depends_on = [ aws_instance.vitibrasil_instance ]
+  triggers = {
+    always_run = "${timestamp()}"
   }
 }

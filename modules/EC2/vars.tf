@@ -1,3 +1,8 @@
+variable "ami" {
+  default = "ami-0babef7f814da8951"
+  description = "AMI Amazon Linux"
+}
+
 variable "vpc_id" {
   default = "vpc-0a161f64fd9c46cf2"
   description = "Id da VPC"
