@@ -57,6 +57,11 @@ resource "aws_instance" "vitibrasil_instance" {
   associate_public_ip_address = true
   iam_instance_profile = "${aws_iam_instance_profile.profile_ec2_to_s3.name}"
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo shutdown -r now"
+    ]
+  }
   root_block_device {
     delete_on_termination = true
     volume_size           = var.ec2_size
@@ -129,22 +134,5 @@ resource "aws_security_group" "permitir_ssh_http" {
 
   tags = {
     Name = "permitir_ssh_e_http"
-  }
-}
-
-resource "null_resource" "reboot_instance" {
-  provisioner "remote-exec" {
-    inline = [
-      "sudo /usr/sbin/shutdown -r 1"
-    ]
-  }
-
-  connection {
-    host = aws_instance.vitibrasil_instance.associate_public_ip_address
-  }
-
-  depends_on = [ aws_instance.vitibrasil_instance ]
-  triggers = {
-    always_run = "${timestamp()}"
   }
 }
