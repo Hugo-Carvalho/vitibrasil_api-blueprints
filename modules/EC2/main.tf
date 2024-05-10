@@ -134,10 +134,10 @@ resource "aws_security_group" "permitir_ssh_http" {
 
 resource "null_resource" "reboot_instance" {
   provisioner "local-exec" {
-    command     = "aws ec2 reboot-instances --instance-ids $instance_id"
+    command     = "aws ec2 reboot-instances --instance-ids $INSTANCE_ID"
 
     environment = {
-      instance_id = aws_instance.vitibrasil_instance.id
+      INSTANCE_ID = aws_instance.vitibrasil_instance.id
     }
 
   }
