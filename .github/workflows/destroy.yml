@@ -20,6 +20,14 @@ jobs:
         runs-on: ubuntu-latest
     
         steps:
+          - name: Git Clone Repo APP
+            uses: actions/checkout@v4
+            with:
+              repository: Hugo-Carvalho/vitibrasil_api
+              token: ${{env.GT_TOKEN}}
+              path: vitibrasil_api
+              submodules: recursive
+
           - name: Running terraform
             uses: hashicorp/setup-terraform@v3
     
@@ -27,7 +35,7 @@ jobs:
             id: init
             run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
 
-          - name: Terraform init
+          - name: Terraform destroy
             if: ${{ github.event.inputs.confirm == 'y' }}
             id: apply
-            run: terraform apply -destroy -auto-approve
+            run: terraform destroy -auto-approve
