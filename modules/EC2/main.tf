@@ -131,3 +131,21 @@ resource "aws_security_group" "permitir_ssh_http" {
     Name = "permitir_ssh_e_http"
   }
 }
+
+resource "null_resource" "reboot_instance" {
+
+  provisioner "local-exec" {
+    on_failure  = "fail"
+    interpreter = ["/bin/bash", "-c"]
+    command     = <<EOT
+        echo -e "\x1B[31m Warning! Restarting instance having id ${aws_instance.ec2.id}.................. \x1B[0m"
+        aws ec2 reboot-instances --instance-ids ${aws_instance.ec2.id}
+        echo "***************************************Rebooted****************************************************"
+     EOT
+  }
+
+  depends_on = [ aws_instance.vitibrasil_instance ]
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
