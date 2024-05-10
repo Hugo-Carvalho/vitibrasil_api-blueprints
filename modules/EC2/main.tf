@@ -137,7 +137,7 @@ resource "null_resource" "reboot_instance" {
     interpreter = ["/bin/bash", "-c"]
     command     = <<EOT
         echo -e "\x1B[31m Warning! Restarting instance having id ${aws_instance.vitibrasil_instance.id}.................. \x1B[0m"
-        aws ec2 reboot-instances --instance-ids ${aws_instance.vitibrasil_instance.id}
+        aws ec2 reboot-instances --instance-ids ${aws_instance.vitibrasil_instance.id} --output json
         echo "***************************************Rebooted****************************************************"
      EOT
   }
