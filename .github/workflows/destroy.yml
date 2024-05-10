@@ -1,0 +1,33 @@
+name: Destroy PRD
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Responda com (y/n), você tem certeza que deseja destruir os serviços em PRD?'
+        required: true
+
+env:
+
+    TF_LOG: INFO
+    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    REGION: ${{ secrets.AWS_REGION }}
+    BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+
+jobs:
+    terraform:
+        runs-on: ubuntu-latest
+    
+        steps:
+          - name: Running terraform
+            uses: hashicorp/setup-terraform@v3
+    
+          - name: Terraform init
+            id: init
+            run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+
+          - name: Terraform init
+            if: ${{ github.event.inputs.confirm == 'y' }}
+            id: apply
+            run: terraform apply -destroy -auto-approve
