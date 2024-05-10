@@ -14,6 +14,7 @@ env:
     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     REGION: ${{ secrets.AWS_REGION }}
     BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+    GT_TOKEN: ${{ secrets.DEPLOY }}
 
 jobs:
     terraform:
