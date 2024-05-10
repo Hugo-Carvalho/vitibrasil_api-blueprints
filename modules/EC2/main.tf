@@ -135,7 +135,7 @@ resource "aws_security_group" "permitir_ssh_http" {
 resource "null_resource" "reboot_instance" {
   provisioner "remote-exec" {
     inline = [
-      "sudo /usr/sbin/shutdown -r 0"
+      "sudo /usr/sbin/shutdown -r 1"
     ]
   }
 
