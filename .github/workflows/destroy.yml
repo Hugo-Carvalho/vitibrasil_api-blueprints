@@ -9,34 +9,37 @@ on:
 
 env:
 
-    TF_LOG: INFO
-    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    REGION: ${{ secrets.AWS_REGION }}
-    BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
-    GT_TOKEN: ${{ secrets.DEPLOY }}
+  TF_LOG: INFO
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  REGION: ${{ secrets.AWS_REGION }}
+  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+  GT_TOKEN: ${{ secrets.DEPLOY }}
 
 jobs:
     terraform:
-        runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
     
-        steps:
-          - name: Git Clone Repo APP
-            uses: actions/checkout@v4
-            with:
+      steps:
+        - name: Git Clone Repo Blueprint
+          uses: actions/checkout@v4
+
+        - name: Git Clone Repo APP
+          uses: actions/checkout@v4
+          with:
               repository: Hugo-Carvalho/vitibrasil_api
               token: ${{env.GT_TOKEN}}
               path: vitibrasil_api
               submodules: recursive
 
-          - name: Running terraform
-            uses: hashicorp/setup-terraform@v3
-    
-          - name: Terraform init
-            id: init
-            run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+        - name: Running terraform
+          uses: hashicorp/setup-terraform@v3
 
-          - name: Terraform destroy
-            if: ${{ github.event.inputs.confirm == 'y' }}
-            id: apply
-            run: terraform destroy -auto-approve
+        - name: Terraform init
+          id: init
+          run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
+
+        - name: Terraform destroy
+          if: ${{ github.event.inputs.confirm == 'y' }}
+          id: apply
+          run: terraform destroy -auto-approve
