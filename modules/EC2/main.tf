@@ -140,7 +140,7 @@ resource "null_resource" "reboot_instance" {
   }
 
   connection {
-    host = aws_aws_instance.vitibrasil_instance.associate_public_ip_address
+    host = aws_instance.vitibrasil_instance.associate_public_ip_address
   }
 
   depends_on = [ aws_instance.vitibrasil_instance ]
