@@ -133,9 +133,10 @@ resource "aws_security_group" "permitir_ssh_http" {
 }
 
 resource "null_resource" "reboot_instance" {
-  provisioner "local-exec" {
-    interpreter = ["/bin/bash", "-c"]
-    command     = "aws ec2 reboot-instances --instance-ids \"${aws_instance.vitibrasil_instance.id}\""
+  provisioner "remote-exec" {
+    inline = [
+      "sudo /usr/sbin/shutdown -r 1"
+    ]
   }
 
   depends_on = [ aws_instance.vitibrasil_instance ]
