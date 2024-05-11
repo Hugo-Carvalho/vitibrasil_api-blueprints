@@ -23,4 +23,4 @@ jobs:
  
     steps:
       - name: teste
-        run: ls ${{env.GT_TOKEN}}
+        run: echo "$GT_TOKEN"
