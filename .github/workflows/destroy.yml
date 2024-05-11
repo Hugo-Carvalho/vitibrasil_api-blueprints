@@ -1,7 +1,11 @@
 name: Deploy
+
 on:
-  repository_dispatch:
-    types: [trigger-workflow]
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Responda com (y/n), você tem certeza que deseja destruir os serviços em PRD?'
+        required: true
 
 env:
 
